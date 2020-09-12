@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -6,14 +7,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var a = [5,4,3,2,1];
+  // demonstration purposes and to simplify this example.
+  final form = FormGroup(
+    {'array': FormControl()},
+  );
 
   int bubble = 0;
   int insertion = 0;
   int selection = 0;
   int heap = 0;
+  String get name => this.form.control('array').value;
 
-  void bubblesort() {
+  List<int> a;
+  void bubblesort(List a) {
     Stopwatch stopwatch1 = new Stopwatch()..start();
     //var a = [5,4,3,2,1];
     for (var i = 0; i < a.length; i++) {
@@ -34,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void insertionsort() {
+  void insertionsort(List a) {
     Stopwatch stopwatch2 = new Stopwatch()..start();
     for (var i = 0; i < a.length; i++) {
       var x = a[i], j = i;
@@ -53,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void selectionsort() {
+  void selectionsort(List a) {
     Stopwatch stopwatch3 = new Stopwatch()..start();
     for (var i = a.length - 1; i >= 0; i--) {
       var first = 0, tmp;
@@ -118,34 +124,52 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       heap = stop;
     });
+  }
+
+  
+  change() {
+    a = [];
     
+    final values = name.split(',');
+    values.forEach((element) {
+      a.add(int.parse(element));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     print(heap);
+    change();
+    print(a);
+
     return Scaffold(
       body: Container(
         child: Column(children: <Widget>[
-          
-          SizedBox(height:50),
-           Text('Bubble sort'+bubble.toString()),
-          Text('Heap sort'+heap.toString()),
-          Text('Selection sort'+selection.toString()),
-          Text('Insertion sort'+insertion.toString()),
+          ReactiveForm(
+            formGroup: this.form,
+            child: Column(
+              children: <Widget>[
+                ReactiveTextField(
+                  formControlName: 'array',
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 50),
+          Text('Bubble sort' + bubble.toString()),
+          Text('Heap sort' + heap.toString()),
+          Text('Selection sort' + selection.toString()),
+          Text('Insertion sort' + insertion.toString()),
           
           FlatButton.icon(
-              onPressed: () {bubblesort();
-              heapSort(a);
-              selectionsort();
-              insertionsort();
-              
-              
+              onPressed: () {
+                bubblesort(a);
+                heapSort(a);
+                selectionsort(a);
+                insertionsort(a);
               },
               icon: Icon(Icons.crop_rotate),
               label: Text('COMPUTE NOW')),
-         
-
         ]),
       ),
     );

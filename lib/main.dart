@@ -1,4 +1,6 @@
-import 'package:algoVisualizer/homescreen.dart';
+import 'package:algoVisualizer/analysis.dart';
+import 'package:algoVisualizer/dashboard.dart';
+import 'package:algoVisualizer/visual.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeScreen(),
+      home: Dashboard(),
     );
   }
 }
