@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,9 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
   int insertion = 0;
   int selection = 0;
   int heap = 0;
+  int merge=0;
   String get name => this.form.control('array').value;
 
-  List<int> a;
+  List<int> b;
   void bubblesort(List a) {
     Stopwatch stopwatch1 = new Stopwatch()..start();
     //var a = [5,4,3,2,1];
@@ -125,53 +130,202 @@ class _HomeScreenState extends State<HomeScreen> {
       heap = stop;
     });
   }
+  void merges(List list, int leftIndex, int middleIndex, int rightIndex) {
+  int leftSize = middleIndex - leftIndex + 1;
+  int rightSize = rightIndex - middleIndex;
 
-  
-  change() {
-    a = [];
-    
-    final values = name.split(',');
-    values.forEach((element) {
-      a.add(int.parse(element));
+  List leftList = new List(leftSize);
+  List rightList = new List(rightSize);
+
+  for (int i = 0; i < leftSize; i++) leftList[i] = list[leftIndex + i];
+  for (int j = 0; j < rightSize; j++) rightList[j] = list[middleIndex + j + 1];
+
+  int i = 0, j = 0;
+  int k = leftIndex;
+
+  while (i < leftSize && j < rightSize) {
+    if (leftList[i] <= rightList[j]) {
+      list[k] = leftList[i];
+      i++;
+    } else {
+      list[k] = rightList[j];
+      j++;
+    }
+    k++;
+  }
+
+  while (i < leftSize) {
+    list[k] = leftList[i];
+    i++;
+    k++;
+  }
+
+  while (j < rightSize) {
+    list[k] = rightList[j];
+    j++;
+    k++;
+  }
+}
+
+void mergeSort(List list, int leftIndex, int rightIndex) {
+  Stopwatch stopwatch5 = new Stopwatch()..start();
+  if (leftIndex < rightIndex) {
+    int middleIndex = (rightIndex + leftIndex) ~/ 2;
+
+    mergeSort(list, leftIndex, middleIndex);
+    mergeSort(list, middleIndex + 1, rightIndex);
+
+    merges(list, leftIndex, middleIndex, rightIndex);
+  }
+  int stop = stopwatch5.elapsedMicroseconds;
+    setState(() {
+      merge = stop;
     });
+}
+
+  changetoarr() {
+    b = List<int>.from(json.decode(name));
   }
 
   @override
   Widget build(BuildContext context) {
-    print(heap);
-    change();
-    print(a);
-
-    return Scaffold(
-      body: Container(
-        child: Column(children: <Widget>[
-          ReactiveForm(
-            formGroup: this.form,
-            child: Column(
-              children: <Widget>[
-                ReactiveTextField(
-                  formControlName: 'array',
-                ),
-              ],
+    print(b);
+    return Container(
+    color: Colors.black,
+    child: SingleChildScrollView(
+          child: Column(children: <Widget>[
+        SizedBox(height: 50),
+        Container(
+          child: Text(
+            'Sorting Algorithm Analyzer',
+            style: GoogleFonts.firaCode(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        SizedBox(height: 40),
+        AvatarGlow(
+          glowColor: Colors.blue,
+          endRadius: 70.0,
+          duration: Duration(milliseconds: 800),
+          repeat: true,
+          showTwoGlows: true,
+          repeatPauseDuration: Duration(milliseconds: 100),
+          child: Material(
+            elevation: 8.0,
+            shape: CircleBorder(),
+            child: CircleAvatar(
+              backgroundColor: Colors.grey[100],
+              child: Image.asset(
+                'assets/sort.png',
+                height: 60,
+              ),
+              radius: 40.0,
             ),
           ),
-          SizedBox(height: 50),
-          Text('Bubble sort' + bubble.toString()),
-          Text('Heap sort' + heap.toString()),
-          Text('Selection sort' + selection.toString()),
-          Text('Insertion sort' + insertion.toString()),
-          
-          FlatButton.icon(
-              onPressed: () {
-                bubblesort(a);
-                heapSort(a);
-                selectionsort(a);
-                insertionsort(a);
-              },
-              icon: Icon(Icons.crop_rotate),
-              label: Text('COMPUTE NOW')),
-        ]),
-      ),
-    );
+        ),
+        Center(
+          child: Container(
+            width: 250,
+            child: ReactiveForm(
+              formGroup: this.form,
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    'Enter your array here:',
+                    style: GoogleFonts.abel(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    color: Colors.white,
+                    child: ReactiveTextField(
+                      formControlName: 'array',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        FlatButton.icon(
+          onPressed: () {
+            changetoarr();
+            bubblesort(b);
+            heapSort(b);
+            selectionsort(b);
+            insertionsort(b);
+            mergeSort(b, 0, b.length-1);
+          },
+          icon: Icon(Icons.sort),
+          label: Text(
+            'ANALYZE NOW',
+            style: GoogleFonts.abel(color: Colors.black),
+          ),
+          color: Colors.white,
+        ),
+        SizedBox(height: 50),
+        Container(
+          width: 250,
+          height: 55,
+          child: Card(
+              child: ListTile(
+            leading: FlutterLogo(size: 20.0),
+            title: Text('Bubble Sort: ' + bubble.toString() + 'ms',
+                style: GoogleFonts.abel(fontWeight: FontWeight.bold)),
+          )),
+        ),
+        Container(
+          width: 250,
+          height: 55,
+          child: Card(
+              child: ListTile(
+            leading: FlutterLogo(size: 20.0),
+            title: Text('Heap Sort: ' + heap.toString() + 'ms',
+                style: GoogleFonts.abel(fontWeight: FontWeight.bold)),
+          )),
+        ),
+        Container(
+          width: 250,
+          height: 55,
+          child: Card(
+              child: ListTile(
+            leading: FlutterLogo(size: 20.0),
+            title: Text('Selection Sort: ' + selection.toString() + 'ms',
+                style: GoogleFonts.abel(fontWeight: FontWeight.bold)),
+          )),
+        ),
+        Container(
+          width: 250,
+          height: 55,
+          child: Card(
+              child: ListTile(
+            leading: FlutterLogo(size: 20.0),
+            title: Text(
+              'Insertion Sort: ' + insertion.toString() + 'ms',
+              style: GoogleFonts.abel(fontWeight: FontWeight.bold),
+            ),
+          )),
+        ),
+        Container(
+          width: 250,
+          height: 55,
+          child: Card(
+              child: ListTile(
+            leading: FlutterLogo(size: 20.0),
+            title: Text(
+              'Merge Sort: ' + merge.toString() + 'ms',
+              style: GoogleFonts.abel(fontWeight: FontWeight.bold),
+            ),
+          )),
+        ),
+      ]),
+    ),
+        );
+    
   }
 }

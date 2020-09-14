@@ -18,7 +18,7 @@ class Dashboard extends StatelessWidget {
     List<PersistentBottomNavBarItem> _navBarsItems() {
         return [
             PersistentBottomNavBarItem(
-                icon: Icon(Icons.tap_and_play),
+                icon: Icon(Icons.sort),
                 title: ("Analyzer"),
                 activeColor: Colors.blue,
                 inactiveColor: Colors.grey,
