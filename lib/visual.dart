@@ -10,10 +10,50 @@ class Visual extends StatefulWidget {
 
 class _VisualState extends State<Visual> {
   String selected = 'Select a sorting Algorithm';
-  List<int> arr = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10];
-  List<int> temp = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10];
+  List<int> arr = [
+    100,
+    90,
+    102,
+    80,
+    100,
+    50,
+    40,
+    103,
+    80,
+    100,
+    20,
+    78,
+    95,
+    90,
+    54,
+    32,
+    81,
+    100,
+    20
+  ];
+  List<int> temp = [
+    100,
+    90,
+    102,
+    80,
+    100,
+    50,
+    40,
+    103,
+    80,
+    100,
+    20,
+    78,
+    95,
+    90,
+    54,
+    32,
+    81,
+    100,
+    20
+  ];
   _updateArrayWithDelay(List<int> updatedArr) async {
-    await Future.delayed(const Duration(milliseconds: 1000), () {
+    await Future.delayed(const Duration(milliseconds: 300), () {
       setState(() {
         arr = List.from(updatedArr);
       });
@@ -21,7 +61,6 @@ class _VisualState extends State<Visual> {
   }
 
   Future<void> bubblesort(List a) async {
-    //var a = [5,4,3,2,1];
     for (var i = 0; i < a.length; i++) {
       bool swaped = false;
       for (var j = i + 1; j < a.length; j++) {
@@ -31,7 +70,7 @@ class _VisualState extends State<Visual> {
           a[j] = tmp;
           swaped = true;
         }
-        await Future.delayed(const Duration(microseconds: 1000), () {
+        await Future.delayed(const Duration(milliseconds: 300), () {
           setState(() {
             a = a;
           });
@@ -280,7 +319,6 @@ class _VisualState extends State<Visual> {
                       'InsertionSort',
                       'MergeSort',
                       'QuickSort',
-                      'SelectionSort',
                       'HeapSort'
                     ].map(
                       (val) {
@@ -294,9 +332,9 @@ class _VisualState extends State<Visual> {
                       setState(
                         () {
                           selected = val;
+                          arr = [...temp];
                         },
                       );
-                      
                     },
                   ),
                 ),
@@ -308,6 +346,7 @@ class _VisualState extends State<Visual> {
                     children:
                         arr.map((val) => _widget(val.toDouble())).toList()),
               ),
+              SizedBox(height: 50),
               Container(
                 color: Colors.white,
                 child: FlatButton.icon(
@@ -335,7 +374,7 @@ class _VisualState extends State<Visual> {
 
 Widget _widget(double h) {
   return Padding(
-    padding: const EdgeInsets.all(2.0),
+    padding: const EdgeInsets.only(right: 8.0),
     child: Container(
         height: h * 2,
         width: 10,
