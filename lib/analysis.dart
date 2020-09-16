@@ -275,7 +275,7 @@ void mergeSort(List list, int leftIndex, int rightIndex) {
           child: Card(
               child: ListTile(
             leading: FlutterLogo(size: 20.0),
-            title: Text('Bubble Sort: ' + bubble.toString() + 'ms',
+            title: Text('Bubble Sort: ' + bubble.toString() + 'us',
                 style: GoogleFonts.abel(fontWeight: FontWeight.bold)),
           )),
         ),
@@ -285,7 +285,7 @@ void mergeSort(List list, int leftIndex, int rightIndex) {
           child: Card(
               child: ListTile(
             leading: FlutterLogo(size: 20.0),
-            title: Text('Heap Sort: ' + heap.toString() + 'ms',
+            title: Text('Heap Sort: ' + heap.toString() + 'us',
                 style: GoogleFonts.abel(fontWeight: FontWeight.bold)),
           )),
         ),
@@ -295,7 +295,7 @@ void mergeSort(List list, int leftIndex, int rightIndex) {
           child: Card(
               child: ListTile(
             leading: FlutterLogo(size: 20.0),
-            title: Text('Selection Sort: ' + selection.toString() + 'ms',
+            title: Text('Selection Sort: ' + selection.toString() + 'us',
                 style: GoogleFonts.abel(fontWeight: FontWeight.bold)),
           )),
         ),
@@ -306,7 +306,7 @@ void mergeSort(List list, int leftIndex, int rightIndex) {
               child: ListTile(
             leading: FlutterLogo(size: 20.0),
             title: Text(
-              'Insertion Sort: ' + insertion.toString() + 'ms',
+              'Insertion Sort: ' + insertion.toString() + 'us',
               style: GoogleFonts.abel(fontWeight: FontWeight.bold),
             ),
           )),
@@ -318,7 +318,7 @@ void mergeSort(List list, int leftIndex, int rightIndex) {
               child: ListTile(
             leading: FlutterLogo(size: 20.0),
             title: Text(
-              'Merge Sort: ' + merge.toString() + 'ms',
+              'Merge Sort: ' + merge.toString() + 'us',
               style: GoogleFonts.abel(fontWeight: FontWeight.bold),
             ),
           )),
